@@ -33,7 +33,11 @@ game.load.spritesheet('enemy', 'assets/enemy.png', 32, 48);
 
 function	create() {
 
-
+	//klawisze enemy
+	W = game.input.keyboard.addKey(Phaser.Keyboard.W)
+	S = game.input.keyboard.addKey(Phaser.Keyboard.S)
+	A = game.input.keyboard.addKey(Phaser.Keyboard.A)
+	D = game.input.keyboard.addKey(Phaser.Keyboard.D)
 	//tworzenie	obiektów
 	game.add.sprite(0,	0,	'star');
 	//	"Włączamy"	prawa	fizyki
@@ -129,9 +133,35 @@ function	create() {
 function	update() {	
 //pętla	główna	gry
 	
+	if (D.isDown)
+	{
 	enemy.animations.play('enemyright');
-	enemy.body.velocity.x = 40;
+	enemy.body.velocity.x = 60;
+	}
+	else if (A.isDown)
+	{
+	enemy.animations.play('enemyleft');
+	enemy.body.velocity.x = -60;
+	}
+	else
+	{
+		enemy.animations.stop();
+		enemy.frame	= 4;
+		enemy.body.velocity.x =0;
+	}
 
+	if (W.isDown)
+	{
+		enemy.body.velocity.y	= -350;
+	}
+	
+	else if(S.isDown )
+	{
+		enemy.body.velocity.y	= 300;
+	}
+
+	
+	
 
 	game.physics.arcade.collide(stars, platforms);
 	game.physics.arcade.collide(player, platforms);
@@ -185,6 +215,9 @@ function	update() {
 		player.frame	= 4;
 	}
 	//		Dodaj	skoki	(!!!)
+	
+
+
 	if (cursors.up.isDown	&&	player.body.touching.down)
 	{
 		player.body.velocity.y	= -350;
